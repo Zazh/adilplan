@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+{% include "components/nav-simple.html" %}
+
+<main class="flex-grow">
+  <section class="pt-[8rem]" id="feedback">
+    <div class="max-w-screen-sm mx-auto px-6 flex items-center flex-col gap-4">
+      <svg class="h-[3rem] shrink-0" viewBox="0 0 22 22" fill="none" stroke-linecap="square">
+        <circle cx="11" cy="11" r="11" class="fill-green-600" />
+        <circle cx="11" cy="11" r="10.5" class="stroke-white" />
+        <path d="M8 11.5L10.5 14L14 8" class="stroke-white" />
+      </svg>
+      <h1 class="text-4xl md:text-3xl font-medium">Ваша заявка отправлена!</h1>
+      <p>Наши менеджеры свяжуться с вами</p>
+      <div class="pt-4">
+        <a href="https://abcplan.kz" type="submit" class=" py-4 px-8 text-sm text-white font-medium bg-primary-gradient-dark rounded-full shadow-primary-btn">На главную</a>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

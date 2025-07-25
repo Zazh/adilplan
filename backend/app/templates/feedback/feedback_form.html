@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}das{% endblock %}
+
+{% block seo %}
+<meta name="description" content="Контакты abcplan.kz, написать для заказа проекта под ключи бизнес-плана, финмодели по всему Казахстану">
+<meta property="og:title" content="Форма для заказаза проектов по разработке бизнес-плана, финмодели, ТЭО по всему Казахстану">
+<meta property="og:description" content="Контакты abcplan.kz, написать для заказа проекта под ключи бизнес-плана, финмодели по всему Казахстану">
+<meta property="og:image" content="https://abcplan.kz/media/main.jpg">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:type" content="website">
+{% endblock %}
+
+{% block content %}
+{% include "components/nav-simple.html" %}
+<main class="flex-grow" xmlns="http://www.w3.org/1999/html">
+  <section class="pt-[8rem]" id="feedback">
+    <div class="max-w-screen-sm mx-auto px-6">
+      <h1 class="text-4xl md:text-4xl font-medium pb-8">Свяжитесь с нами</h1>
+      <form method="post">
+        {% csrf_token %}
+        <div class="pb-4">
+          <label class="text-sm font-bold"for="{{ form.name.id_for_label }}">Имя</label>
+          {{ form.name }}
+          {% if form.name.errors %}
+            <div class="text-red-600 text-sm pt-4">{{ form.name.errors.0 }}</div>
+          {% endif %}
+        </div>
+        <div class="pb-8">
+          <label class="text-sm font-bold pb-4" for="{{ form.phone.id_for_label }}">Телефон</label>
+          {{ form.phone }}
+          {% if form.phone.errors %}
+            <div class="text-red-600 text-xs pt-4">{{ form.phone.errors.0 }}</div>
+          {% endif %}
+        </div>
+        {{ form.source }}
+        <button type="submit" class="w-full py-4 px-8 text-sm text-white font-medium bg-primary-gradient-dark rounded-full shadow-primary-btn">Отправить</button>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}

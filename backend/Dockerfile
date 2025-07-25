@@ -19,4 +19,4 @@ RUN pip install --no-cache-dir --upgrade pip \
 # --- проект ---
 COPY . .
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8005"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8007"]

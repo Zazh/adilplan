@@ -1,10 +1,619 @@
 {% extends "base.html" %}
+{% block title %} {{ landing.seotitle }} {% endblock %}
+
+{% block seo %}
+<link rel="canonical" href="https://abcplan.kz/">
+<meta name="description" content="{{ landing.seodescription }}">
+
+<meta property="og:title" content="{{ landing.seotitle }}">
+<meta property="og:description" content="{{ landing.seodescription }}">
+<meta property="og:image" content="https://abcplan.kz/media/main.jpg">
+<meta property="og:url" content="https://abcplan.kz/">
+<meta property="og:type" content="website">
+{% endblock %}
 
 {% block content %}
 {% load static %}
 
-<p>
-  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, nostrum.
-</p>
+{% include "components/nav.html" %}
+
+<section class="hero">
+    {% if hero_block %}
+    <div class="pt-[9rem]" id="{{ hero_block.slug }}">
+        <h1 class="text-[3rem] md:text-[5.5rem] leading-none text-center font-accent text-blue-950">{{ hero_block.title|safe }}</h1>
+        <h2 class="text-md md:text-xl md:pt-6 pt-4 text-gray-600 text-center">{{ hero_block.subtitle|safe }}</h2>
+        <div class="flex flex-col-reverse md:flex-row justify-center items-center mt-8 gap-6">
+            {% if hero_block.cta_button_text %}
+              <a href="{% url 'feedback' %}?source={{ hero_block.cta_button_text|urlencode }}" class="py-4 px-8 text-sm text-white font-medium bg-primary-gradient-dark rounded-full shadow-primary-btn">{{ hero_block.cta_button_text }}</a>
+            {% endif %}
+
+            {% if hero_block.cta_annotation %}
+              <p class="text-sm text-center md:text-left font-bold text-gray-600 leading-1">{{ hero_block.cta_annotation|safe }}</p>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+        <p>HeroBlock не найден для этого лендинга!</p>
+    {% endif %}
+
+    <div class="relative max-w-screen-md mx-auto mt-[4rem] pb-12 md:pb-0 md:mt-0 md:h-[46rem] overflow-hidden-y">
+        {% if benefits_block and benefits_block.active %}
+        <div class="flex-col items-center md:flex-row m-auto mt-4 md:m-0 fade-in opacity-0 translate-y-6 transition-all duration-700 [ md:absolute top-[200px] left-[100px] md:shadow-hero-blue ] hero-card bg-white w-[80%] md:w-[16rem] z-10 rounded-lg [ flex gap-4 pt-4 pb-6 px-4 ] [ border-[1px] border-gray-200 ]">
+            <div>
+                {% if benefits_block.svg_icon1 %}{{ benefits_block.svg_icon1|safe }}{% endif %}
+            </div>
+            <div class="text-center md:text-left text-lg md:text-sm">
+                <span class="font-medium text-blue-950">{{ benefits_block.text1 }}</span>
+            </div>
+        </div>
+        <div class="flex-col items-center md:flex-row m-auto mt-4 md:m-0 fade-in opacity-0 translate-y-6 transition-all duration-700 [ md:absolute top-[340px] right-[40px] md:shadow-hero-pink md:rotate-[8deg] ] hero-card bg-white/85 w-[80%] md:w-[16rem] rounded-lg z-30 [ flex gap-4 pt-4 pb-6 px-4 ] [ border-[1px] border-gray-200 ]">
+            <div>
+                {% if benefits_block.svg_icon2 %}{{ benefits_block.svg_icon2|safe }}{% endif %}
+            </div>
+            <div class="text-center md:text-left text-lg md:text-sm">
+                <span class="font-medium text-blue-950">{{ benefits_block.text2 }}</span>
+            </div>
+        </div>
+        <div class="items-center md:items-start m-auto mt-4 md:m-0 fade-in opacity-0 translate-y-6 transition-all duration-700 [ md:absolute top-[500px] left-[40px] md:shadow-hero-up md:rotate-[-8deg] ] hero-card bg-white/85 w-[80%] md:w-[16rem] rounded-lg z-30 [ flex flex-col gap-4 pt-4 pb-6 px-4 ] [ border-[1px] border-gray-200 ]">
+            <div>
+                <ul class="flex gap-1">
+                    {% if benefits_block.is_gallery3 %}
+                        {% if benefits_block.image1 %}
+                        <li class="w-[2.5rem] aspect-square bg-blue-900 rounded-full flex items-center justify-center">
+                            <img src="{{ benefits_block.webp_url1 }}" alt="">
+                        </li>
+                        {% endif %}
+                        {% if benefits_block.image2 %}
+                        <li class="w-[2.5rem] aspect-square bg-blue-900 rounded-full flex items-center justify-center">
+                            <img src="{{ benefits_block.webp_url2 }}" alt="">
+                        </li>
+                        {% endif %}
+                        {% if benefits_block.image3 %}
+                        <li class="w-[2.5rem] aspect-square bg-blue-900 rounded-full flex items-center justify-center">
+                            <img src="{{ benefits_block.webp_url3 }}" alt="">
+                        </li>
+                        {% endif %}
+                        {% if benefits_block.image4 %}
+                        <li class="w-[2.5rem] aspect-square bg-blue-900 rounded-full flex items-center justify-center">
+                            <img src="{{ benefits_block.webp_url4 }}" alt="">
+                        </li>
+                        {% endif %}
+                        {% if benefits_block.image5 %}
+                        <li class="w-[2.5rem] aspect-square bg-blue-900 rounded-full flex items-center justify-center">
+                            <img src="{{ benefits_block.webp_url5 }}" alt="">
+                        </li>
+                        {% endif %}
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="text-center md:text-left text-lg md:text-sm">
+                <span class="font-medium text-blue-950">
+                    {{ benefits_block.text3 }}
+                </span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if hero_block and hero_block.background_image %}
+            <div style="background-image: url('{{ hero_block.webp_url }}');"
+                 class="hero-img hidden md:block [ h-[46rem] w-full m-auto z-20 ] absolute"></div>
+        {% endif %}
+    </div>
+</section>
+
+{% if solutions_block.active %}
+<section>
+    <div class="pt-[5rem] pb-[3.5rem]">
+        <h1 class="text-[3rem] md:text-[4.5rem] leading-none text-center font-accent text-black">{{ solutions_block.title|safe }}</h1>
+    </div>
+    <div class="container-full gap-4 pb-4">
+        <div class="col-span-12 lg:col-span-6 order-2 lg:order-1">
+            <div class="h-full bg-primary-gradient-dark border-[1px] border-gray-300 rounded-2xl px-[1rem] pt-[2rem] pb-[2rem] xl:px-[3.5rem] xl:pt-[3.5rem] xl:pb-[5rem]">
+                <svg class="text-white" width="4rem"  viewBox="0 0 28 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M27.3732 17.3356C26.9539 16.3238 26.388 15.4422 25.674 14.6882C24.9587 13.9356 24.134 13.3313 23.1973 12.8738C22.2605 12.4178 21.2629 12.1891 20.2044 12.1891C18.8484 12.1891 17.8508 12.2917 16.9597 12.8129C16.0686 13.334 15.0682 14.2461 15.0682 14.2461V0H9.04368V0.518391H12.5084V9.55282C12.2621 9.42807 12.0061 9.31025 11.728 9.2063C10.8065 8.86394 9.6608 8.69207 8.29512 8.69207C7.16604 8.69207 6.16149 8.82651 5.28563 9.09403C4.40838 9.36154 3.68057 9.72746 3.10081 10.1876C2.52105 10.6492 2.08243 11.1787 1.78494 11.7733C1.48745 12.3693 1.3394 12.9944 1.3394 13.65C1.3394 14.2156 1.45839 14.6771 1.69638 15.0347C1.93299 15.391 2.54319 15.5698 3.52421 15.5698C4.08875 15.5698 4.52046 15.4298 4.81656 15.1456C5.11405 14.8629 5.26349 14.5136 5.26349 14.0964C5.26349 13.858 5.21921 13.4934 5.12927 13.0028C5.03934 12.5121 4.99506 12.0131 4.99506 11.5058C4.99506 10.7324 5.31469 10.1738 5.95394 9.83003C6.5932 9.48767 7.40265 9.3158 8.38367 9.3158C9.12671 9.3158 9.72168 9.42114 10.1672 9.62905C10.6128 9.83696 10.9545 10.1419 11.1925 10.5439C11.4291 10.9458 11.5938 11.4296 11.6823 11.9951C11.7709 12.5606 11.8166 13.201 11.8166 13.9162C11.8166 14.8102 11.7488 15.5171 11.6159 16.0383C11.4817 16.5594 11.2368 16.9919 10.8798 17.3342C10.5242 17.6766 10.0247 17.9663 9.38684 18.2047C8.74758 18.4431 7.93675 18.7259 6.95572 19.053C6.12414 19.3205 5.29808 19.5741 4.48172 19.8125C3.66397 20.0509 2.92093 20.3559 2.25124 20.7287C1.58292 21.1016 1.04052 21.6006 0.624036 22.2257C0.207551 22.8508 0 23.6852 0 24.7275C0 25.1739 0.0664163 25.6576 0.200633 26.1788C0.334849 26.6999 0.608816 27.1684 1.0253 27.5856C1.4404 28.0028 2.02016 28.3521 2.76458 28.6349C3.50761 28.9176 4.50385 29.059 5.75193 29.059C6.85195 29.059 7.75825 28.9329 8.47223 28.6792C9.1862 28.4256 9.75766 28.1137 10.1894 27.7409C10.6197 27.3694 10.9393 26.9813 11.1483 26.5793C11.3558 26.1774 11.5191 25.8433 11.6381 25.5744H11.7266C11.9646 26.6764 12.4032 27.533 13.0425 28.1428C13.4977 28.5781 14.1577 28.8553 15.0142 28.98C15.1042 29.0091 15.1941 29.0313 15.284 29.0466C15.284 29.0466 15.5068 29.0479 15.8514 29.0493C15.9468 29.0521 16.0409 29.0576 16.1405 29.0576C16.1917 29.0576 16.2374 29.0535 16.2858 29.0521C17.4799 29.059 19.3853 29.0701 19.9484 29.0687C21.083 29.0687 22.2121 28.786 23.2222 28.269C24.116 27.8116 24.9089 27.2142 25.5979 26.4768C26.3368 25.6881 26.9221 24.7802 27.3538 23.7559C27.7841 22.7316 28 21.6518 28 20.5167C28 19.3815 27.7911 18.3447 27.3718 17.3328L27.3732 17.3356ZM11.6823 21.9582C11.6823 22.5542 11.6298 23.2167 11.526 23.9458C11.4208 24.6763 11.2133 25.3527 10.9006 25.9778C10.5879 26.6029 10.1271 27.1241 9.51828 27.5413C8.90808 27.9585 8.11386 28.1678 7.13283 28.1678C6.4493 28.1678 5.89168 28.0486 5.46136 27.8102C5.02965 27.5718 4.6948 27.2668 4.45819 26.894C4.2202 26.5225 4.05693 26.0984 3.96837 25.6216C3.87843 25.1448 3.83416 24.6832 3.83416 24.2369C3.83416 23.1945 4.08599 22.3241 4.59241 21.6227C5.09745 20.9242 5.82526 20.3808 6.77723 19.9927L10.1216 18.6538C11.0431 18.2671 11.5329 17.879 11.5924 17.4922H11.6823V21.9582ZM24.1949 23.5743C24.1202 24.6236 23.9362 25.5176 23.64 26.2578C23.3439 26.9979 22.9012 27.5662 22.3103 27.9599C21.7195 28.3549 20.9184 28.5517 19.9083 28.5517C18.8982 28.5517 18.0417 28.33 17.4135 27.885C16.7853 27.4401 16.2983 26.8663 15.9537 26.1635C15.6078 25.4594 15.374 24.6763 15.2508 23.8127C15.1277 22.9492 15.0654 22.1093 15.0654 21.2956C15.0654 20.3337 15.0834 19.5007 15.1208 18.7965C15.1567 18.0924 15.2246 17.4701 15.3242 16.9267C15.4224 16.3848 15.5511 15.9149 15.7116 15.5199C15.8721 15.1248 16.0866 14.7547 16.3592 14.4096C16.7286 13.9162 17.2087 13.5087 17.8009 13.1885C18.3918 12.8683 19.1431 12.7075 20.055 12.7075C20.917 12.7075 21.6254 12.8808 22.1803 13.2259C22.7351 13.5724 23.1654 14.0645 23.474 14.7062C23.7812 15.348 23.997 16.1186 24.1202 17.0196C24.2433 17.9205 24.3056 18.9393 24.3056 20.0731C24.3056 21.3566 24.2682 22.5237 24.1949 23.5716V23.5743Z" fill="currentColor"/>
+                </svg>
+                <div class="pt-[5rem]">
+                    {% if solutions_block.utp %}
+                    <h1 class="text-white text-2xl pb-12">{{ solutions_block.utp }}</h1>
+                    {% endif %}
+                    <a href="{% url 'feedback' %}?source={{ solutions_block.cta_button_text }}" class="py-4 px-8 text-blue-950 bg-white font-medium rounded-full">{{ solutions_block.cta_button_text }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-span-12 lg:col-span-6 order-1 lg:order-2">
+            <div class="h-full border-[1px] border-gray-300 rounded-2xl px-[1rem] pt-[2rem] pb-[2rem] xl:px-[3.5rem] xl:pt-[3.5rem] xl:pb-[5rem]">
+                <ul class="flex flex-col gap-4">
+                    <li class="flex flex-col md:flex-row fade-in opacity-0 translate-y-6 transition-all duration-700 gap-4 px-6 py-6 border-[1px] border-gray-300 rounded-xl">
+                        <span>
+                            {% if solutions_block.svg_icon1 %}{{ solutions_block.svg_icon1|safe }}{% endif %}
+                        </span>
+                        <span class="text-md md:text-lg">{{ solutions_block.text1 }}</span>
+                    </li>
+                    <li class="flex flex-col md:flex-row fade-in opacity-0 translate-y-6 transition-all duration-700 gap-4 px-6 py-6 border-[1px] border-gray-300 rounded-xl">
+                        <span>
+                            {% if solutions_block.svg_icon2 %}{{ solutions_block.svg_icon2|safe }}{% endif %}
+                        </span>
+                        <span class="text-md md:text-lg">{{ solutions_block.text2 }}</span>
+                    </li>
+                    <li class="flex flex-col md:flex-row fade-in opacity-0 translate-y-6 transition-all duration-700 gap-4 px-6 py-6 border-[1px] border-gray-300 rounded-xl">
+                        <span>
+                            {% if solutions_block.svg_icon3 %}{{ solutions_block.svg_icon3|safe }}{% endif %}
+                        </span>
+                        <span class="text-md md:text-lg">{{ solutions_block.text3 }}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if tariff_block.active %}
+<section id="{{ tariff_block.slug }}">
+    <div class="pt-[5rem] pb-[3.5rem]">
+        <h1 class="text-[3rem] md:text-[4.5rem] leading-none text-center font-accent text-black">{{ tariff_block.title|safe }}</h1>
+    </div>
+    <div class="w-full pb-4 flex overflow-x-auto lg:overflow-x-hidden scroll-smooth snap-x snap-mandatory no-scrollbar">
+
+        {% for card in tariff_block.cards.all %}
+        <a href="{% url 'feedback' %}?source={{ card.title|urlencode }}" class="flex-shrink-0 px-8 lg:px-1 xl:px-4 snap-start w-full lg:w-1/3 h-full relative overflow-hidden transition-all duration-300">
+            <div class="
+                        {% if card.accent %}
+                            bg-black
+                            text-white
+                        {% else %}
+                            bg-white
+                            text-black
+                        {% endif %}
+                        [ border-[1px] border-gray-300 rounded-3xl ] snap-start w-full">
+                <div class="p-4">
+                    <div class="h-[14rem] flex flex-col justify-between">
+                        <div>
+                            <span>
+                                {{ card.svg_icon|safe }}
+                            </span>
+                            <h3 class="text-2xl font-bold [ pt-3 ]">{{ card.title }}</h3>
+                            <p class="
+                                        {% if card.accent %}
+                                            text-gray-300
+                                        {% else %}
+                                            text-gray-600
+                                        {% endif %}
+                                        pt-2 text-sm ">{{ card.description }}</p>
+                        </div>
+                        <p class="text-3xl font-bold pb-2">{{ card.price }} {{ tariff_block.current|safe }}</p>
+                    </div>
+
+                    <div class="
+                                {% if card.accent %}
+                                    border-white/25
+                                {% else %}
+                                    border-gray-300
+                                {% endif %}
+                                py-8 border-y-[1px] ">
+                        <ul class="flex flex-wrap gap-3">
+                            {% for prop in card.properties.all %}
+                            <li class="font-medium flex items-center h-7 text-sm w-full">
+                                <span class="w-9">
+                                    {% if prop.is_check %}
+                                    <svg class="h-[1.2lh] shrink-0" viewBox="0 0 22 22" fill="none" stroke-linecap="square">
+                                      <circle cx="11" cy="11" r="11" class="fill-black" />
+                                      <circle cx="11" cy="11" r="10.5" class="stroke-white" />
+                                      <path d="M8 11.5L10.5 14L14 8" class="stroke-white" />
+                                    </svg>
+                                    {% else %}
+                                    <svg class="h-[1.2lh] shrink-0" viewBox="0 0 22 22" fill="none" stroke-linecap="square">
+                                        <circle cx="11" cy="11" r="11" class="
+                                                                            {% if card.accent %}
+                                                                                fill-white
+                                                                            {% else %}
+                                                                                fill-red-900
+                                                                            {% endif %}
+                                        "></circle>
+                                        <circle cx="11" cy="11" r="10.5" class="
+                                                                            {% if card.accent %}
+                                                                                stroke-white
+                                                                            {% else %}
+                                                                               stroke-transparent
+                                                                            {% endif %}
+                                        "></circle>
+                                        <path d="M8 8 L14 14" class="stroke-white" stroke-width="1"></path>
+                                        <path d="M14 8 L8 14" class="stroke-white" stroke-width="1"></path>
+                                    </svg>
+                                    {% endif %}
+                                </span>
+                                <span class="leading-none">{{ prop.name }}</span>
+                                <span class="
+                                            {% if card.accent %}
+                                                text-gray-300
+                                            {% else %}
+                                                text-gray-600
+                                            {% endif %}
+                                            leading-none ml-auto">
+                                    {{ prop.value }}
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="pt-6">
+                        {% if card.button_text %}
+                        <button class=" {% if card.accent %}
+                                            bg-white
+                                        {% else %}
+                                            bg-gray-200
+                                        {% endif %}
+                                        py-3 px-8 w-full font-medium text-sm text-black rounded-full">
+                            {{ card.button_text }}
+                        </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if about_block.active %}
+<section class="container-full pt-[4rem]">
+    <div class="lg:col-span-6 col-span-12 order-2 lg:order-1">
+        {% if about_block.image %}
+            <img src="{{ about_block.webp_url }}" class="w-[90%] mx-auto lg:mx-0" alt="">
+        {% endif %}
+    </div>
+    <div class="lg:col-span-6 col-span-12 order-1 lg:order-2">
+        <div class="xl:mt-[5.5rem] text-center lg:text-left">
+            <span class="px-4 py-3 bg-blue-600 rounded-full tracking-wider text-sm text-white leading-none">{{ about_block.subtitle|safe }}</span>
+            <h3 class="text-4xl font-medium mt-8">{{ about_block.title|safe }}</h3>
+            <div class="mt-6">
+                {{ about_block.description|linebreaks|safe }}
+            </div>
+            <div class="my-8 md:mt-8">
+                <a href="{% url 'feedback' %}?source={{ about_block.button_text|urlencode }}" class="py-4 px-8 text-white font-medium text-sm bg-primary-gradient-dark rounded-full shadow-primary-btn">{{ about_block.button_text|safe }}</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if cases_block.active %}
+<section id="{{ cases_block.slug }}">
+    <div class="pt-[5rem] pb-[3.5rem]">
+        <h1 class="text-[3rem] md:text-[4.5rem] leading-none text-center font-accent text-black">{{ cases_block.title }}</h1>
+    </div>
+    <div id="infinite-scroll" class="no-scrollbar relative overflow-hidden w-full py-4 cursor-grab overflow-x-auto">
+        <div class="scroll-row flex gap-4 will-change-transform select-none">
+            {% for card in cases_block.items.all %}
+            <div class="flex-shrink-0 snap-start w-[22rem] h-full relative overflow-hidden transition-all duration-300">
+                <div class="border-[1px] border-gray-300 rounded-3xl overflow-hidden">
+                    <div class="px-8 py-8">
+                        <h3 class="text-lg font-bold">{{ card.title }}</h3>
+                        <p class="pt-4 text-sm">{{ card.subtitle }}</p>
+                    </div>
+                    <div class="px-4 pt-4 pb-6 bg-blue-950 flex items-center justify-between">
+                        <span class="text-white">Сумма </span>
+                        <span class="text-white">{{ card.price }} {{ card.current }}</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+{% if certificate_block.active %}
+<section class="no-scrollbar relative overflow-hidden w-full cursor-grab overflow-x-auto py-8" id="certificates-carousel">
+    <div class="scroll-row flex gap-4 will-change-transform select-none">
+        {% for cart in certificate_block.items.all %}
+        <div class="w-[10rem] flex items-center justify-center flex-shrink-0 aspect-[210/297] overflow-hidden transition-all duration-300 bg-gray-300 rounded-md">
+            {% if cart.image  %}
+                <img onclick="openModal(this.src.replace('_thumb', ''));" src="{{ cart.webp_url }}" title="{{ cart.title }}">
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if clients_block.active %}
+{% with clients_block.clients_list.splitlines as all_clients %}
+<section class="pb-8">
+    <div id="cases-carousel-1" class="no-scrollbar relative overflow-hidden w-full py-2 cursor-grab overflow-x-auto">
+        <div class="scroll-row flex gap-4 will-change-transform select-none">
+        {% for client in all_clients %}
+            {% if forloop.counter|divisibleby:"2" and client.strip %}
+            <div class="flex-shrink-0 snap-start h-full relative overflow-hidden transition-all duration-300">
+                <div class="text-sm border-[1px] border-gray-300 rounded-full px-4 py-3 overflow-hidden w-full bg-white-300">
+                    {{ client }}
+                </div>
+            </div>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+    <div id="cases-carousel-2" class="no-scrollbar relative overflow-hidden w-full py-2 cursor-grab overflow-x-auto">
+        <div class="scroll-row flex gap-4 will-change-transform select-none">
+            {% for client in all_clients %}
+                {% if not forloop.counter|divisibleby:"2" and client.strip %}
+                <div class="flex-shrink-0 snap-start h-full relative overflow-hidden transition-all duration-300">
+                    <div class="text-sm border-[1px] border-gray-300 rounded-full px-4 py-3 overflow-hidden w-full bg-white-300">
+                        {{ client }}
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endwith %}
+{% endif %}
+
+{% if faq_block.active %}
+<section id="{{ faq_block.slug }}" class="px-4 pb-12">
+    <div class="py-[3.5rem]">
+        <h1 class="text-[3rem] md:text-[4.5rem] leading-none text-center font-accent text-black">{{ faq_block.title|safe }}</h1>
+    </div>
+    <div class="max-w-screen-sm mx-auto border-t border-gray-200">
+        {% for question in faq_block.items.all %}
+        <div class="faq-item border-b border-gray-200">
+            <button type="button" class="faq-question w-full flex items-center justify-between py-4 font-medium focus:outline-none">
+                <span>{{ question.title|safe }}</span>
+                <span class="faq-icon transition-transform duration-200 text-blue-600">+</span>
+            </button>
+            <div class="faq-answer max-h-0 overflow-hidden transition-all duration-300">
+                <p class="py-2 text-gray-700">{{ question.description|safe }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center py-8">
+        <a href="{% url 'feedback' %}?source=faq" class="py-4 px-8 text-white font-medium text-sm bg-primary-gradient-dark rounded-full shadow-primary-btn">Задать вопрос</a>
+    </div>
+</section>
+{% endif %}
+
+<section class="pb-12" id="blog">
+    <div class="pt-[3.5rem] pb-[3.5rem]">
+        <h1 class="text-[3rem] md:text-[4.5rem] leading-none text-center font-accent text-black">Блог</h1>
+    </div>
+    <div id="blog-carousel" class="no-scrollbar relative overflow-hidden w-full py-4  cursor-grab overflow-x-auto">
+        <div class="scroll-row flex gap-4 will-change-transform select-none">
+            {% for post in latest_blog_posts %}
+            <a href="{{ post.get_absolute_url }}" class="flex-shrink-0 snap-start w-[22rem] h-full relative overflow-hidden transition-all duration-300">
+                <div class="border-[1px] border-gray-300 rounded-xl overflow-hidden">
+                    <div class="w-full aspect-video bg-gray-200">
+                        {% if post.img %}
+                        <img src="{{ post.webp_url }}" alt="{{ post.title }}" class="w-full h-full object-cover">
+                        {% endif %}
+                    </div>
+                    <div class="px-4 py-6">
+                        <h3 class="text-md font-bold">{{ post.title }}</h3>
+                        <p class="pt-2 text-sm flex gap-2 items-center text-gray-500">
+                            <svg class="size-6 " viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 10V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7V10M20 10V19C20 20.1046 19.1046 21 18 21H6C4.89543 21 4 20.1046 4 19V10M20 10H4M8 3V7M16 3V7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                <rect x="6" y="12" width="3" height="3" rx="0.5" fill="currentColor"/>
+                                <rect x="10.5" y="12" width="3" height="3" rx="0.5" fill="currentColor"/>
+                                <rect x="15" y="12" width="3" height="3" rx="0.5" fill="currentColor"/>
+                            </svg>
+                            <span class="pt-1 font-medium">{{ post.publish|date:"d.m.Y" }}</span>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="text-center py-8">
+        <a href="{% url 'blog:post_list' %}" class="py-4 px-8 text-white font-medium text-sm bg-primary-gradient-dark rounded-full shadow-primary-btn">
+            Все статьи
+        </a>
+    </div>
+</section>
+
+{% include "components/footer.html" %}
+
+<!-- Модальное окно -->
+<div id="modal" class="fixed inset-0 z-50 bg-black/70 flex items-center justify-center hidden">
+  <div class="relative">
+      <div class="flex itens-center justify-center inset-0 w-full h-full">
+          <img id="modal-img" src="" class="rounded-xl shadow-2xl max-h-[80vh] mx-auto" alt="">
+      </div>
+    <button onclick="closeModal()"
+      class="absolute top-2 right-2 bg-white rounded-full shadow-lg w-10 h-10 flex items-center justify-center text-gray-700 text-2xl hover:bg-gray-200 transition">
+      &times;
+    </button>
+  </div>
+</div>
+
+<script>
+  function openModal(src) {
+    document.getElementById('modal').classList.remove('hidden');
+    document.getElementById('modal-img').src = src;
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.add('hidden');
+    document.getElementById('modal-img').src = '';
+    document.body.style.overflow = '';
+  }
+  // Закрытие модального окна по клику вне картинки
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  // ESC — закрыть
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+
+<!-- BEGIN drag and scroll -->
+<script>
+    function makeInfiniteCarousel({containerSelector, rowSelector, speed = 1, interactive = true}) {
+        const container = document.querySelector(containerSelector);
+        if (!container) return;
+        const row = container.querySelector(rowSelector);
+        if (!row) return;
+
+        if (!row.dataset.infiniteCloned) {
+            row.innerHTML += row.innerHTML;
+            row.dataset.infiniteCloned = 'true';
+        }
+
+        let isPaused = false;
+        let isDragging = false;
+        let scrollPos = 0;
+        let startX = 0;
+        let dragScrollStart = 0;
+        let rowWidth = row.scrollWidth / 2;
+
+        function animate() {
+            if (!isPaused && !isDragging) {
+                scrollPos += speed;
+                if (scrollPos < 0) scrollPos = rowWidth + scrollPos;
+                if (scrollPos >= rowWidth) scrollPos = scrollPos - rowWidth;
+                row.style.transform = `translateX(${-scrollPos}px)`;
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        if (interactive) {
+            // Наведение мыши — пауза
+            container.addEventListener('mouseenter', () => { isPaused = true; });
+            container.addEventListener('mouseleave', () => { isPaused = false; isDragging = false; });
+
+            // Drag&Drop
+            container.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                container.classList.add('cursor-grabbing');
+                startX = e.pageX;
+                dragScrollStart = scrollPos;
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+                const dx = e.pageX - startX;
+                scrollPos = dragScrollStart - dx;
+                if (scrollPos < 0) scrollPos = rowWidth + scrollPos;
+                if (scrollPos >= rowWidth) scrollPos = scrollPos - rowWidth;
+                row.style.transform = `translateX(${-scrollPos}px)`;
+            });
+
+            document.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    isDragging = false;
+                    container.classList.remove('cursor-grabbing');
+                }
+            });
+
+            // Touch
+            let touchStartX = 0, dragTouchStart = 0;
+            container.addEventListener('touchstart', (e) => {
+                isDragging = true;
+                isPaused = true;
+                touchStartX = e.touches[0].pageX;
+                dragTouchStart = scrollPos;
+            });
+            container.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+                const dx = e.touches[0].pageX - touchStartX;
+                scrollPos = dragTouchStart - dx;
+                if (scrollPos < 0) scrollPos = rowWidth + scrollPos;
+                if (scrollPos >= rowWidth) scrollPos = scrollPos - rowWidth;
+                row.style.transform = `translateX(${-scrollPos}px)`;
+            });
+            container.addEventListener('touchend', () => {
+                isDragging = false;
+                isPaused = false;
+            });
+        }
+
+        window.addEventListener('resize', () => {
+            rowWidth = row.scrollWidth / 2;
+        });
+    }
+
+</script>
+<script>
+    makeInfiniteCarousel({
+        containerSelector: '#infinite-scroll',
+        rowSelector: '.scroll-row',
+        speed: .25,
+        interactive: true
+    });
+    makeInfiniteCarousel({
+        containerSelector: '#cases-carousel-1',
+        rowSelector: '.scroll-row',
+        speed: 0.5,
+        interactive: false // Всегда крутится, не реагирует ни на что!
+    });
+    makeInfiniteCarousel({
+        containerSelector: '#cases-carousel-2',
+        rowSelector: '.scroll-row',
+        speed: 0.5,
+        interactive: false
+    });
+    makeInfiniteCarousel({
+        containerSelector: '#certificates-carousel',
+        rowSelector: '.scroll-row',
+        speed: 0.75,
+        interactive: true
+    });
+    makeInfiniteCarousel({
+        containerSelector: '#blog-carousel',
+        rowSelector: '.scroll-row',
+        speed: 0,
+        interactive: true
+    });
+
+</script>
+<!-- END drag and scroll -->
+
+<!-- BEGIN ACCORDION -->
+<script>
+    document.querySelectorAll('.faq-question').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const answer = this.parentNode.querySelector('.faq-answer');
+            const icon = this.querySelector('.faq-icon');
+            const isOpen = answer.style.maxHeight && answer.style.maxHeight !== "0px";
+
+            document.querySelectorAll('.faq-answer').forEach(a => {
+                a.style.maxHeight = null;
+            });
+            document.querySelectorAll('.faq-icon').forEach(i => {
+                i.textContent = '+';
+                i.classList.remove('rotate-45');
+            });
+
+            if (!isOpen) {
+                answer.style.maxHeight = answer.scrollHeight + "px";
+                icon.textContent = '–';
+                icon.classList.add('rotate-45');
+            }
+        });
+    });
+</script>
+<!-- END ACCORDION -->
+
+<script>
+    function revealOnScroll() {
+        const elements = document.querySelectorAll('.fade-in');
+        const triggerBottom = window.innerHeight * 0.95;
+
+        elements.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < triggerBottom) {
+                el.classList.add('opacity-100', 'translate-y-0');
+                el.classList.remove('opacity-0', 'translate-y-6');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+</script>
 
 {% endblock %}

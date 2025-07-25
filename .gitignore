@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtualenv
+venv/
+env/
+.env
+.venv
+ENV/
+env.bak/
+venv.bak/
+
+# Django 4rwuxykk%jqhnwPvpfnz
+*.log
+backend/Dockerfile
+backend/.env
+backend/app/core/settings.py
+backend/app/media/
+backend/app/staticfiles/
+
+docker-compose.yml
+
+frontend/
+frontend/*.html
+package.json
+abplan_logo.ai
+
+
+# Pytest
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# System
+.DS_Store
+Thumbs.db
+

@@ -1,4 +1,4 @@
-{% extends "blog/base.html" %}
+{% extends "base.html" %}
 
 {% block title %}
 Блог компании abcplan.kz — Бизнес-планы, ТЭО, финмодели для бизнеса в Казахстане: Астана, Алматы, Шымкент
@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block content %}
+{% include "components/nav-simple.html" %}
 <main class="flex-grow">
   <section id="articles-list" class="container-full pb-[6rem] gap-4 pt-[8rem]">
     <div class="col-span-full lg:col-span-8 lg:col-start-3 xl:col-span-6 xl:col-start-4">
@@ -46,5 +47,4 @@
   </section>
 </main>
 {% include "components/footer.html" %}
-
 {% endblock %}

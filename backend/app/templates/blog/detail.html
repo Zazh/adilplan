@@ -1,4 +1,4 @@
-{% extends "blog/base.html" %}
+{% extends "base.html" %}
 
 {% block title %} {{ post.title }} {% endblock %}
 
@@ -19,6 +19,7 @@
 {% endblock %}
 
 {% block content %}
+{% include "components/nav-simple.html" %}
 <section id="article-content" class="container-full pb-[6rem] gap-4 pt-[6rem]">
   <div class="col-span-full lg:col-span-10 lg:col-start-2 xl:col-span-8 xl:col-start-3 text-center">
     <h4 class="flex gap-2 justify-center py-4">
@@ -48,4 +49,5 @@
     </div>
   </div>
 </section>
+{% include "components/footer.html" %}
 {% endblock %}
