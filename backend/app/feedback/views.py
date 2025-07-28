@@ -22,6 +22,6 @@ class FeedbackCreateView(CreateView):
         response = super().form_valid(form)
         feedback = self.object  # только что сохранённый объект
         send_telegram_message(
-            f"<b>Новая заявка с сайта!</b>\nИмя: {feedback.name}\nТелефон: {feedback.phone}"
+            f"<b>Новая заявка с сайта!</b>\nИмя: {feedback.name}\nТелефон: {feedback.phone}\n{feedback.source or "Не указан"}"
         )
         return response
