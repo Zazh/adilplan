@@ -268,7 +268,7 @@
             <span class="px-4 py-3 bg-blue-600 rounded-full tracking-wider text-sm text-white leading-none">{{ about_block.subtitle|safe }}</span>
             <h3 class="text-4xl font-medium mt-8">{{ about_block.title|safe }}</h3>
             <div class="mt-6">
-                {{ about_block.description|linebreaks|safe }}
+                {{ about_block.description|linebreaks }}
             </div>
             <div class="my-8 md:mt-8">
                 <a href="{% url 'feedback' %}?source={{ about_block.button_text|urlencode }}" class="py-4 px-8 text-white font-medium text-sm bg-primary-gradient-dark rounded-full shadow-primary-btn">{{ about_block.button_text|safe }}</a>
